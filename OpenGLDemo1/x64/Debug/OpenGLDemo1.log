@@ -1,9 +1,23 @@
 ﻿  OpenGLDemo1.cpp
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Image.h(65,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Image.h(66,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Canvas.h(148,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Canvas.h(149,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Canvas.h(150,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\Canvas.h(151,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-D:\OpenGLDemo2\OpenGLDemo1\OpenGLDemo1\OpenGLDemo1.cpp(36,19): warning C4305: “初始化”: 从“double”到“float”截断
-  OpenGLDemo1.vcxproj -> D:\OpenGLDemo2\OpenGLDemo1\x64\Debug\OpenGLDemo1.exe
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Image.h(65,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Image.h(66,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(148,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(149,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(150,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(151,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“OpenGLDemo1.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(36,13): warning C4305: “初始化”: 从“double”到“float”截断
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(176,59): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(177,65): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  OpenGLDemo1.vcxproj -> E:\WorkSpace\StudyOpenGL\x64\Debug\OpenGLDemo1.exe

@@ -147,7 +147,6 @@ void Render()
 
         // rMat是旋转矩阵
         glm::mat4 rMat(1.0f);
-
         rMat = glm::rotate(rMat, glm::radians(_angle), glm::vec3(1, 0, 0));
 
         // tMat是平移矩阵
@@ -164,11 +163,19 @@ void Render()
         // glm::vec3(0, 1, 0) 是头的方向
         vMat = glm::lookAt(glm::vec3(_xCam, 0, 250), glm::vec3(_xCam, 0, 0), glm::vec3(0, 1, 0));
         
-        ptv4 = vMat * ptv4;
+        // pMat是投影矩阵
+        glm::mat4 pMat(1.0f);
+        // glm::radians(60.0f) 视张角
+        //  (float)wWidth/(float)wHeight  宽高比
+        // 1.0f 近平面离观察者原点距离  1000.0f  远平面离观察者坐标系原点距离
+        pMat = glm::perspective(glm::radians(60.0f), (float)wWidth/(float)wHeight,1.0f,1000.0f);
+        
+        ptv4 = pMat* vMat * ptv4;
 
-        ptArray[i].m_x = ptv4.x;
-        ptArray[i].m_y = ptv4.y;
-        ptArray[i].m_z = ptv4.z;
+        // ndc下的坐标 归一化到屏幕(-1,1)之后的标准坐标
+        ptArray[i].m_x = (ptv4.x/ptv4.w+1.0)*(float)wWidth/2.0;
+        ptArray[i].m_y = (ptv4.y / ptv4.w +1.0)* (float)wHeight / 2.0;
+        ptArray[i].m_z = ptv4.z / ptv4.w;
 
     }
     

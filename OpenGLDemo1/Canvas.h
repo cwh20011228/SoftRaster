@@ -160,6 +160,7 @@ namespace GT
 			_uv.y = _uv1.y + (_uv2.y - _uv1.y) * _scale;
 
 			return _uv;
+			
 		}
 		// »­Ïß²Ù×÷
 		void drawLine(intV2 pt1, intV2 pt2, RGBA _color);
