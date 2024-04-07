@@ -36,7 +36,7 @@ GT::Image* _zoomImageSimple = nullptr;
 float speed = 0.01;     // 速度
 float _angle = 0.0f;    // 角度
 float _xCam = 0.0f;     // 摄像机的位置
-
+float _zRun = 0;        // z轴的变化
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);   // 注册窗口类的函数
@@ -135,35 +135,35 @@ void Render()
     
     GT::Point ptArray[] =
     {
+        //TODO: 近大远小
+        // 远的三角形
+        {300.0,0.0,-100.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
+        {800.0,0.0,-100.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
+        {800.0,300.0,-100.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
+
+        // 近的三角形
         {0.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
-        {400.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
-        {400.0,300.0,0.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)}
+        {500.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
+        {500.0,300.0,0.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
     };
 
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 6; i++)
     {
+        if (i == 0 || i == 1 || i == 2)
+        {
+            ptArray[i].m_z -= _zRun;
+        }
         glm::vec4 ptv4(ptArray[i].m_x, ptArray[i].m_y, ptArray[i].m_z, 1);
 
-        // rMat是旋转矩阵
-        glm::mat4 rMat(1.0f);
-        rMat = glm::rotate(rMat, glm::radians(_angle), glm::vec3(1, 0, 0));
-
-        // tMat是平移矩阵
-        glm::mat4 tMat(1.0f);
-        tMat = glm::translate(tMat,glm::vec3(100,300,0));
-
-        // 先旋转后平移   矩阵的乘法实际上是按照从右到左的顺序进行的
-        //ptv4 = tMat* rMat * ptv4;
-        
-        // vMat是观察矩阵
+        //TODO: vMat是观察矩阵
         glm::mat4 vMat(1.0f);
         // glm::vec3(0, 0, 100)是eye在世界坐标系下的坐标   
         // glm::vec3(0, 0, 0)是看向的那个点   
         // glm::vec3(0, 1, 0) 是头的方向
-        vMat = glm::lookAt(glm::vec3(_xCam, 0, 250), glm::vec3(_xCam, 0, 0), glm::vec3(0, 1, 0));
+        vMat = glm::lookAt(glm::vec3(0, 0, 1000), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         
-        // pMat是投影矩阵
+        //TODO: pMat是投影矩阵
         glm::mat4 pMat(1.0f);
         // glm::radians(60.0f) 视张角
         //  (float)wWidth/(float)wHeight  宽高比
@@ -181,11 +181,12 @@ void Render()
     
     _angle += 2;
     _xCam += 5;
+    _zRun += 2;
 
     _canvas->gtVertexPointer(2, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray);
     _canvas->gtColorPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_color);
     _canvas->gtTexCoordPointer(2, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_uv);
-    _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 3);
+    _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 6);
 
 
 
