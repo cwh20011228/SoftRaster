@@ -1,11 +1,51 @@
-﻿  OpenGLDemo1.cpp
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Image.h(65,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Image.h(66,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Canvas.h(148,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Canvas.h(149,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Canvas.h(150,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\Canvas.h(151,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(36,19): warning C4305: “初始化”: 从“double”到“float”截断
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(176,59): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-E:\github_mycode\StudyOpenGL\OpenGLDemo1\OpenGLDemo1.cpp(177,65): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-  OpenGLDemo1.vcxproj -> E:\github_mycode\StudyOpenGL\x64\Debug\OpenGLDemo1.exe
+﻿  Canvas.cpp
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Image.h(65,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Image.h(66,10): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(137,15): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(160,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(161,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(162,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.h(163,29): warning C4244: “=”: 从“float”转换到“GT::byte”，可能丢失数据
+  (编译源文件“Canvas.cpp”)
+  
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(88,12): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(89,12): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(91,12): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(92,12): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(178,25): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(178,20): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(307,14): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(308,12): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(324,15): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(325,18): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(339,20): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(340,13): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(354,20): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(374,17): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(378,26): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(384,17): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(388,26): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(429,21): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(429,14): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(430,21): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(430,14): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(459,15): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(460,18): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(461,23): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(461,15): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(557,9): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(558,9): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+E:\WorkSpace\StudyOpenGL\OpenGLDemo1\Canvas.cpp(591,22): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  OpenGLDemo1.vcxproj -> E:\WorkSpace\StudyOpenGL\x64\Debug\OpenGLDemo1.exe

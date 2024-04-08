@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "E:\\WorkSpace\\StudyOpenGL\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\OpenGLDemo1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|solutionrelative:OpenGLDemo1\\OpenGLDemo1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|solutionrelative:OpenGLDemo1\\Canvas.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|solutionrelative:OpenGLDemo1\\Canvas.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|solutionrelative:OpenGLDemo1\\Canvas.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\OpenGLDemo1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|solutionrelative:OpenGLDemo1\\OpenGLDemo1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A7A8CB7C-EBAB-4BE3-A42F-8BC1F3777C00}|OpenGLDemo1\\OpenGLDemo1.vcxproj|E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Image.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -80,33 +80,33 @@
               "RelativeDocumentMoniker": "OpenGLDemo1\\Canvas.h",
               "ToolTip": "E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.h",
               "RelativeToolTip": "OpenGLDemo1\\Canvas.h",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAawKIAAAADAAAA",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAmwLUAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-03-22T01:34:27.824Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Canvas.cpp",
               "DocumentMoniker": "E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.cpp",
               "RelativeDocumentMoniker": "OpenGLDemo1\\Canvas.cpp",
               "ToolTip": "E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\Canvas.cpp",
               "RelativeToolTip": "OpenGLDemo1\\Canvas.cpp",
-              "ViewState": "AQIAAFUCAAAAAAAAAAAAAGICAAAAAAAA",
+              "ViewState": "AQIAABoBAAAAAAAAAAAAACIBAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-22T01:34:27.824Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "OpenGLDemo1.cpp",
               "DocumentMoniker": "E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\OpenGLDemo1.cpp",
               "RelativeDocumentMoniker": "OpenGLDemo1\\OpenGLDemo1.cpp",
               "ToolTip": "E:\\WorkSpace\\StudyOpenGL\\OpenGLDemo1\\OpenGLDemo1.cpp",
               "RelativeToolTip": "OpenGLDemo1\\OpenGLDemo1.cpp",
-              "ViewState": "AQIAALQAAAAAAAAAAAAqwMMAAAAjAAAA",
+              "ViewState": "AQIAAJwAAAAAAAAAAAAqwLEAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-22T01:34:27.881Z",
               "EditorCaption": ""

@@ -8,78 +8,80 @@
 namespace GT
 {
 	// 使用bresenham算法画线
-	void Canvas::drawLine(intV2 pt1, intV2 pt2, RGBA _color)
-	{
-		int disY = abs(pt2.y - pt1.y);	// ▲y
-		int disX = abs(pt2.x - pt1.x);	// ▲x
-		
-		int xNow = pt1.x;
-		int yNow = pt1.y;
+	//void Canvas::drawLine(intV2 pt1, intV2 pt2, RGBA _color)
+	//{
+	//	int disY = abs(pt2.y - pt1.y);	// ▲y
+	//	int disX = abs(pt2.x - pt1.x);	// ▲x
+	//	
+	//	int xNow = pt1.x;
+	//	int yNow = pt1.y;
 
-		int stepX = 0;
-		int stepY = 0;
+	//	int stepX = 0;
+	//	int stepY = 0;
 
-		// 判断两个方向步进的正负
-		if (pt1.x < pt2.x)
-		{
-			stepX = 1;
-		}
-		else 
-		{
-			stepX = -1;
-		}
+	//	// 判断两个方向步进的正负
+	//	if (pt1.x < pt2.x)
+	//	{
+	//		stepX = 1;
+	//	}
+	//	else 
+	//	{
+	//		stepX = -1;
+	//	}
 
-		if (pt1.y < pt2.y)
-		{
-			stepY = 1;
-		}
-		else
-		{
-			stepY = -1;
-		}
+	//	if (pt1.y < pt2.y)
+	//	{
+	//		stepY = 1;
+	//	}
+	//	else
+	//	{
+	//		stepY = -1;
+	//	}
 
-		// 对比xy偏移量，决定步进的方向选取 x 或 y
-		int sumStep = disX;
-		bool useXStep = true;
-		if (disX < disY)
-		{
-			sumStep = disY;
-			useXStep = false;
-			SWAP_INT(disX, disY);
-		}
+	//	// 对比xy偏移量，决定步进的方向选取 x 或 y
+	//	int sumStep = disX;
+	//	bool useXStep = true;
+	//	if (disX < disY)
+	//	{
+	//		sumStep = disY;
+	//		useXStep = false;
+	//		SWAP_INT(disX, disY);
+	//	}
 
-		// 初始化p的值，P0=2▲y-▲x
-		int p = 2 * disY - disX;
-		for (auto i = 0; i < sumStep; i++)
-		{
-			drawPoint(xNow, yNow, _color);
-			if (p >= 0)
-			{
-				// 步进因变量的坐标
-				if (useXStep)
-				{
-					yNow = yNow + stepY;
-				}
-				else
-				{
-					xNow = xNow + stepX;
-				}
-				
-				p = p - 2 * disX;
-			}
-			// 步进主坐标（自变量的坐标）
-			if (useXStep)
-			{
-				xNow = xNow + stepX;
-			}
-			else
-			{
-				yNow = yNow + stepY;
-			}
-			p = p + 2 * disY;
-		}
+	//	// 初始化p的值，P0=2▲y-▲x
+	//	int p = 2 * disY - disX;
+	//	for (auto i = 0; i < sumStep; i++)
+	//	{
+	//		drawPoint(xNow, yNow, _color);
+	//		if (p >= 0)
+	//		{
+	//			// 步进因变量的坐标
+	//			if (useXStep)
+	//			{
+	//				yNow = yNow + stepY;
+	//			}
+	//			else
+	//			{
+	//				xNow = xNow + stepX;
+	//			}
+	//			
+	//			p = p - 2 * disX;
+	//		}
+	//		// 步进主坐标（自变量的坐标）
+	//		if (useXStep)
+	//		{
+	//			xNow = xNow + stepX;
+	//		}
+	//		else
+	//		{
+	//			yNow = yNow + stepY;
+	//		}
+	//		p = p + 2 * disY;
+	//	}
 
-	}
+	//}
+	
+
 	// 使用bresenham算法画线
 	void Canvas::drawLine(Point pt1, Point pt2)
 	{
@@ -170,8 +172,10 @@ namespace GT
 				_color = colorLerp(pt1.m_color, pt2.m_color, _scale);
 			}
 
-			
-			drawPoint(xNow, yNow, _color);
+			// z插值（深度插值）
+			float _zNow = zLerp(pt1.m_z, pt2.m_z, _scale);
+
+			drawPoint(Point(xNow,yNow,_zNow,_color));
 
 			if (p >= 0)
 			{
@@ -201,49 +205,50 @@ namespace GT
 
 	}
 
-	void Canvas::drawTriangle(Point pt1, Point pt2, Point pt3)
-	{
-		// 构建包围体
-		int left = MIN(pt3.m_x,MIN(pt1.m_x, pt2.m_x));
-		int right = MAX(pt3.m_x,MAX(pt1.m_x,pt2.m_x));
-		int buttom = MIN(pt3.m_y, MIN(pt1.m_y, pt2.m_y));
-		int top = MAX(pt3.m_y, MAX(pt1.m_y, pt2.m_y));
+	//! 暂时注释掉
+	//void Canvas::drawTriangle(Point pt1, Point pt2, Point pt3)
+	//{
+	//	// 构建包围体
+	//	int left = MIN(pt3.m_x,MIN(pt1.m_x, pt2.m_x));
+	//	int right = MAX(pt3.m_x,MAX(pt1.m_x,pt2.m_x));
+	//	int buttom = MIN(pt3.m_y, MIN(pt1.m_y, pt2.m_y));
+	//	int top = MAX(pt3.m_y, MAX(pt1.m_y, pt2.m_y));
 
-		// 剪裁屏幕
-		left = left < 0 ? 0 : left;
-		right = right > (m_width - 1) ? (m_width - 1) : right;
-		buttom = buttom < 0 ? 0 : buttom;
-		top = top > (m_height - 1) ? (m_height - 1) : top;
+	//	// 剪裁屏幕
+	//	left = left < 0 ? 0 : left;
+	//	right = right > (m_width - 1) ? (m_width - 1) : right;
+	//	buttom = buttom < 0 ? 0 : buttom;
+	//	top = top > (m_height - 1) ? (m_height - 1) : top;
 
-		// 计算直线参数值
-		float k1 = (float)(pt2.m_y - pt3.m_y) / (float)(pt2.m_x - pt3.m_x);	// e1的斜率
-		float k2 = (float)(pt1.m_y - pt3.m_y) / (float)(pt1.m_x - pt3.m_x);	// e2的斜率
-		float k3 = (float)(pt1.m_y - pt2.m_y) / (float)(pt1.m_x - pt2.m_x);	// e3的斜率
+	//	// 计算直线参数值
+	//	float k1 = (float)(pt2.m_y - pt3.m_y) / (float)(pt2.m_x - pt3.m_x);	// e1的斜率
+	//	float k2 = (float)(pt1.m_y - pt3.m_y) / (float)(pt1.m_x - pt3.m_x);	// e2的斜率
+	//	float k3 = (float)(pt1.m_y - pt2.m_y) / (float)(pt1.m_x - pt2.m_x);	// e3的斜率
 
-		// 直线的b值
-		float b1 = pt2.m_y - pt2.m_x * k1;
-		float b2 = pt1.m_y - pt1.m_x * k2;
-		float b3 = pt1.m_y - pt1.m_x * k3;
+	//	// 直线的b值
+	//	float b1 = pt2.m_y - pt2.m_x * k1;
+	//	float b2 = pt1.m_y - pt1.m_x * k2;
+	//	float b3 = pt1.m_y - pt1.m_x * k3;
 
-		// 循环判断
-		for (int x = left; x <= right; x++)
-		{
-			for (int y = buttom; y <= top; y++)
-			{
-				// 判断当前点是否在三角形范围内
-				float judge1 = (y - (k1 * x + b1)) * (pt1.m_y - (pt1.m_x * k1 + b1));	// 同符号，相乘大于0
-				float judge2 = (y - (k2 * x + b2)) * (pt2.m_y - (pt2.m_x * k2 + b2));
-				float judge3 = (y - (k3 * x + b3)) * (pt3.m_y - (pt3.m_x * k3 + b3));
+	//	// 循环判断
+	//	for (int x = left; x <= right; x++)
+	//	{
+	//		for (int y = buttom; y <= top; y++)
+	//		{
+	//			// 判断当前点是否在三角形范围内
+	//			float judge1 = (y - (k1 * x + b1)) * (pt1.m_y - (pt1.m_x * k1 + b1));	// 同符号，相乘大于0
+	//			float judge2 = (y - (k2 * x + b2)) * (pt2.m_y - (pt2.m_x * k2 + b2));
+	//			float judge3 = (y - (k3 * x + b3)) * (pt3.m_y - (pt3.m_x * k3 + b3));
 
-				if (judge1 >=0 && judge2 >=0 && judge3 >=0)
-				{
-					drawPoint(x, y, RGBA(255, 0, 0,0));
-				}
+	//			if (judge1 >=0 && judge2 >=0 && judge3 >=0)
+	//			{
+	//				drawPoint(x, y, RGBA(255, 0, 0,0));
+	//			}
 
-			}
-		}
+	//		}
+	//	}
 
-	}
+	//}
 
 	// 剪裁x
 	bool Canvas::judgeLineAndRect(int _x1, int _x2, int& _x1Cut, int& _x2Cut)
@@ -565,7 +570,7 @@ namespace GT
 
 	}
 
-	// 图片操作   _x，_y是图片左下角开始的位置
+	// 图片操作   _x，_y是图片左下角开始的位置    注释了两个drawPoint函数，暂时用不到
 	void Canvas::drawImage(int _x, int _y, Image* _image)
 	{
 		for (int u = 0; u < _image->getWidth(); u++)
@@ -577,7 +582,7 @@ namespace GT
 
 				if (!m_state.m_useBlend)
 				{
-					drawPoint(u + _x, v + _y, _srcColor);
+					//! drawPoint(u + _x, v + _y, _srcColor);
 				}
 				else
 				{
@@ -585,7 +590,7 @@ namespace GT
 					RGBA _dstColor = getColor(_x+u, _y+v);
 					float _srcAlpha = (float)_srcColor.m_a / 255.0;		// 当前图片的透明度α
 					RGBA _finalColor = colorLerp(_dstColor, _srcColor, _image->getAlpha()*_srcAlpha);
-					drawPoint(_x+u,_y+v,_finalColor);
+					//! drawPoint(_x+u,_y+v,_finalColor);
 				}
 			}
 		}
