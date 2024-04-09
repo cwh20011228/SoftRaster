@@ -205,50 +205,50 @@ namespace GT
 
 	}
 
-	//! 暂时注释掉
-	//void Canvas::drawTriangle(Point pt1, Point pt2, Point pt3)
-	//{
-	//	// 构建包围体
-	//	int left = MIN(pt3.m_x,MIN(pt1.m_x, pt2.m_x));
-	//	int right = MAX(pt3.m_x,MAX(pt1.m_x,pt2.m_x));
-	//	int buttom = MIN(pt3.m_y, MIN(pt1.m_y, pt2.m_y));
-	//	int top = MAX(pt3.m_y, MAX(pt1.m_y, pt2.m_y));
 
-	//	// 剪裁屏幕
-	//	left = left < 0 ? 0 : left;
-	//	right = right > (m_width - 1) ? (m_width - 1) : right;
-	//	buttom = buttom < 0 ? 0 : buttom;
-	//	top = top > (m_height - 1) ? (m_height - 1) : top;
+	void Canvas::drawTriangle(Point pt1, Point pt2, Point pt3)
+	{
+		// 构建包围体
+		int left = MIN(pt3.m_x,MIN(pt1.m_x, pt2.m_x));
+		int right = MAX(pt3.m_x,MAX(pt1.m_x,pt2.m_x));
+		int buttom = MIN(pt3.m_y, MIN(pt1.m_y, pt2.m_y));
+		int top = MAX(pt3.m_y, MAX(pt1.m_y, pt2.m_y));
 
-	//	// 计算直线参数值
-	//	float k1 = (float)(pt2.m_y - pt3.m_y) / (float)(pt2.m_x - pt3.m_x);	// e1的斜率
-	//	float k2 = (float)(pt1.m_y - pt3.m_y) / (float)(pt1.m_x - pt3.m_x);	// e2的斜率
-	//	float k3 = (float)(pt1.m_y - pt2.m_y) / (float)(pt1.m_x - pt2.m_x);	// e3的斜率
+		// 剪裁屏幕
+		left = left < 0 ? 0 : left;
+		right = right > (m_width - 1) ? (m_width - 1) : right;
+		buttom = buttom < 0 ? 0 : buttom;
+		top = top > (m_height - 1) ? (m_height - 1) : top;
 
-	//	// 直线的b值
-	//	float b1 = pt2.m_y - pt2.m_x * k1;
-	//	float b2 = pt1.m_y - pt1.m_x * k2;
-	//	float b3 = pt1.m_y - pt1.m_x * k3;
+		// 计算直线参数值
+		float k1 = (float)(pt2.m_y - pt3.m_y) / (float)(pt2.m_x - pt3.m_x);	// e1的斜率
+		float k2 = (float)(pt1.m_y - pt3.m_y) / (float)(pt1.m_x - pt3.m_x);	// e2的斜率
+		float k3 = (float)(pt1.m_y - pt2.m_y) / (float)(pt1.m_x - pt2.m_x);	// e3的斜率
 
-	//	// 循环判断
-	//	for (int x = left; x <= right; x++)
-	//	{
-	//		for (int y = buttom; y <= top; y++)
-	//		{
-	//			// 判断当前点是否在三角形范围内
-	//			float judge1 = (y - (k1 * x + b1)) * (pt1.m_y - (pt1.m_x * k1 + b1));	// 同符号，相乘大于0
-	//			float judge2 = (y - (k2 * x + b2)) * (pt2.m_y - (pt2.m_x * k2 + b2));
-	//			float judge3 = (y - (k3 * x + b3)) * (pt3.m_y - (pt3.m_x * k3 + b3));
+		// 直线的b值
+		float b1 = pt2.m_y - pt2.m_x * k1;
+		float b2 = pt1.m_y - pt1.m_x * k2;
+		float b3 = pt1.m_y - pt1.m_x * k3;
 
-	//			if (judge1 >=0 && judge2 >=0 && judge3 >=0)
-	//			{
-	//				drawPoint(x, y, RGBA(255, 0, 0,0));
-	//			}
+		// 循环判断
+		for (int x = left; x <= right; x++)
+		{
+			for (int y = buttom; y <= top; y++)
+			{
+				// 判断当前点是否在三角形范围内
+				float judge1 = (y - (k1 * x + b1)) * (pt1.m_y - (pt1.m_x * k1 + b1));	// 同符号，相乘大于0
+				float judge2 = (y - (k2 * x + b2)) * (pt2.m_y - (pt2.m_x * k2 + b2));
+				float judge3 = (y - (k3 * x + b3)) * (pt3.m_y - (pt3.m_x * k3 + b3));
 
-	//		}
-	//	}
+				if (judge1 >=0 && judge2 >=0 && judge3 >=0)
+				{
+					drawPoint(Point(x, y,0, RGBA(255, 0, 0,0)));
+				}
 
-	//}
+			}
+		}
+
+	}
 
 	// 剪裁x
 	bool Canvas::judgeLineAndRect(int _x1, int _x2, int& _x1Cut, int& _x2Cut)
@@ -319,6 +319,13 @@ namespace GT
 		floatV2 uvStart2;
 		floatV2 uvEnd2;
 
+		// 使用z坐标
+		float zStart1;
+		float zEnd1;
+		float zStart2;
+		float zEnd2;
+
+
 		if (pt.m_y < ptFlat1.m_y)	// 平顶三角形（尖在下面）
 		{
 			yStart = pt.m_y;
@@ -333,6 +340,11 @@ namespace GT
 			uvEnd1 = ptFlat1.m_uv;
 			uvStart2 = pt.m_uv;
 			uvEnd2 = ptFlat2.m_uv;
+
+			zStart1 = pt.m_z;
+			zEnd1 = ptFlat1.m_z;
+			zStart2 = pt.m_z;
+			zEnd2 = ptFlat2.m_z;
 		}
 		else	// 平底三角形
 		{
@@ -348,6 +360,11 @@ namespace GT
 			uvEnd1 = pt.m_uv;
 			uvStart2 = ptFlat2.m_uv;
 			uvEnd2 = pt.m_uv;
+
+			zStart1 = ptFlat1.m_z;
+			zEnd1 = pt.m_z;
+			zStart2 = ptFlat2.m_z;
+			zEnd2 = pt.m_z;
 		}
 
 		// 剪裁之前顶点到底的距离
@@ -426,8 +443,22 @@ namespace GT
 				_uv1Cut = uvLerp(_uv1, _uv2, (float)(x1Cut - x1) / (float)(x2 - x1));
 				_uv2Cut = uvLerp(_uv1, _uv2, (float)(x2Cut - x1) / (float)(x2 - x1));
 			}
-			Point pt1(x1Cut, y,0, _color1Cut,_uv1Cut);
-			Point pt2(x2Cut, y,0, _color2Cut,_uv2Cut);
+
+			// z坐标
+			float _z1 = zLerp(zStart1, zEnd1, s);
+			float _z2 = zLerp(zStart2, zEnd2, s);
+
+			// 避免剪裁x坐标产生的影响
+			float _z1Cut = _z1;
+			float _z2Cut = _z2;
+			if (x2 != x1)
+			{
+				_z1Cut = zLerp(_z1, _z2, (float)(x1Cut - x1) / (float)(x2 - x1));
+				_z2Cut = zLerp(_z1, _z2, (float)(x2Cut - x1) / (float)(x2 - x1));
+			}
+
+			Point pt1(x1Cut, y,_z1Cut, _color1Cut,_uv1Cut);
+			Point pt2(x2Cut, y,_z2Cut, _color2Cut,_uv2Cut);
 
 			drawLine(pt1, pt2);		// bresenham算法画线
 
@@ -518,7 +549,7 @@ namespace GT
 		float s = (float)(npt.m_y - ptMin.m_y) / (float)(ptMax.m_y - ptMin.m_y);	// s是权重（比例）
 		npt.m_color = colorLerp(ptMin.m_color, ptMax.m_color, s);	// npt的颜色计算出来了
 		npt.m_uv = uvLerp(ptMin.m_uv, ptMax.m_uv,s);
-
+		npt.m_z = zLerp(ptMin.m_z, ptMax.m_z, s);
 
 		drawTriangleFlat(ptMiddle, npt,ptMax);
 		drawTriangleFlat(ptMiddle, npt, ptMin);
@@ -644,11 +675,13 @@ namespace GT
 				float* _vertexDataFloat = (float*)_vertexData;
 				pt0.m_x = _vertexDataFloat[0];
 				pt0.m_y = _vertexDataFloat[1];
+				pt0.m_z = _vertexDataFloat[2];
 				_vertexData += m_state.m_vertexData.m_stride;	// 加步长，指向下一个顶点
 
 				_vertexDataFloat = (float*)_vertexData;
 				pt1.m_x = _vertexDataFloat[0];
 				pt1.m_y = _vertexDataFloat[1];
+				pt1.m_z = _vertexDataFloat[2];
 				_vertexData += m_state.m_vertexData.m_stride;
 
 				// 取颜色坐标
@@ -674,16 +707,19 @@ namespace GT
 				float* _vertexDataFloat = (float*)_vertexData;
 				pt0.m_x = _vertexDataFloat[0];
 				pt0.m_y = _vertexDataFloat[1];
+				pt0.m_z = _vertexDataFloat[2];
 				_vertexData += m_state.m_vertexData.m_stride;		// 加步长
 
 				_vertexDataFloat = (float*)_vertexData;
 				pt1.m_x = _vertexDataFloat[0];
 				pt1.m_y = _vertexDataFloat[1];
+				pt1.m_z = _vertexDataFloat[2];
 				_vertexData += m_state.m_vertexData.m_stride;	// 加步长
 
 				_vertexDataFloat = (float*)_vertexData;
 				pt2.m_x = _vertexDataFloat[0];
 				pt2.m_y = _vertexDataFloat[1];
+				pt2.m_z = _vertexDataFloat[2];
 				_vertexData += m_state.m_vertexData.m_stride;	//加步长
 
 				// 取颜色坐标

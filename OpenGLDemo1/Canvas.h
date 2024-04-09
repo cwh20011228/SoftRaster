@@ -182,7 +182,7 @@ namespace GT
 		}
 
 		// 画线操作
-		void drawLine(intV2 pt1, intV2 pt2, RGBA _color);
+		//void drawLine(intV2 pt1, intV2 pt2, RGBA _color);
 		void drawLine(Point pt1, Point pt2);
 
 		// 画三角形

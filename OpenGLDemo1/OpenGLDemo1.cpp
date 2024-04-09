@@ -136,25 +136,35 @@ void Render()
     GT::Point ptArray[] =
     {
         //TODO: 近大远小
-        // 远的三角形
-        {300.0,0.0,-100.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
-        {800.0,0.0,-100.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
-        {800.0,300.0,-100.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
-
         // 近的三角形
         {0.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
-        {500.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
-        {500.0,300.0,0.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
+        {300.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
+        {300.0,300.0,0.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
+
+        // 远的三角形
+        {300.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
+        {300.0,300.0,0.0,GT::RGBA(0,255,0),GT::floatV2(0.0,0.0)},
+        {300.0,0.0,-500.0,GT::RGBA(0,0,255),GT::floatV2(0.0,0.0)},
     };
 
 
     for (int i = 0; i < 6; i++)
     {
-        if (i == 0 || i == 1 || i == 2)
+       /* if (i == 0 || i == 1 || i == 2)
         {
             ptArray[i].m_z -= _zRun;
-        }
+        }*/
         glm::vec4 ptv4(ptArray[i].m_x, ptArray[i].m_y, ptArray[i].m_z, 1);
+
+        //TODO: mMat是平移矩阵
+        glm::mat4 mMat(1.0f);
+        mMat = glm::translate(mMat, glm::vec3(-300, 0, 0));
+
+
+        //TODO: rMAt是旋转矩阵
+        glm::mat4 rMat(1.0f);
+        rMat = glm::rotate(rMat, glm::radians(_angle), glm::vec3(0, 1, 0));
+
 
         //TODO: vMat是观察矩阵
         glm::mat4 vMat(1.0f);
@@ -163,6 +173,7 @@ void Render()
         // glm::vec3(0, 1, 0) 是头的方向
         vMat = glm::lookAt(glm::vec3(0, 0, 1000), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         
+
         //TODO: pMat是投影矩阵
         glm::mat4 pMat(1.0f);
         // glm::radians(60.0f) 视张角
@@ -170,11 +181,11 @@ void Render()
         // 1.0f 近平面离观察者原点距离  1000.0f  远平面离观察者坐标系原点距离
         pMat = glm::perspective(glm::radians(60.0f), (float)wWidth/(float)wHeight,1.0f,1000.0f);
         
-        ptv4 = pMat* vMat * ptv4;
+        ptv4 = pMat* vMat *rMat*mMat* ptv4;
 
         // ndc下的坐标 归一化到屏幕(-1,1)之后的标准坐标
-        ptArray[i].m_x = (ptv4.x/ptv4.w+1.0)*(float)wWidth/2.0;
-        ptArray[i].m_y = (ptv4.y / ptv4.w +1.0)* (float)wHeight / 2.0;
+        ptArray[i].m_x = (ptv4.x/ptv4.w+1.0)*((float)wWidth/2.0);
+        ptArray[i].m_y = (ptv4.y / ptv4.w +1.0)* ((float)wHeight / 2.0);
         ptArray[i].m_z = ptv4.z / ptv4.w;
 
     }
@@ -183,7 +194,7 @@ void Render()
     _xCam += 5;
     _zRun += 2;
 
-    _canvas->gtVertexPointer(2, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray);
+    _canvas->gtVertexPointer(3, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray);
     _canvas->gtColorPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_color);
     _canvas->gtTexCoordPointer(2, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_uv);
     _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 6);
