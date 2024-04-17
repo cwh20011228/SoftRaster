@@ -8,78 +8,78 @@
 namespace GT
 {
 	// 使用bresenham算法画线
-	//void Canvas::drawLine(intV2 pt1, intV2 pt2, RGBA _color)
-	//{
-	//	int disY = abs(pt2.y - pt1.y);	// ▲y
-	//	int disX = abs(pt2.x - pt1.x);	// ▲x
-	//	
-	//	int xNow = pt1.x;
-	//	int yNow = pt1.y;
+	void Canvas::drawLine(intV2 pt1, intV2 pt2, RGBA _color)
+	{
+		int disY = abs(pt2.y - pt1.y);	// ▲y
+		int disX = abs(pt2.x - pt1.x);	// ▲x
+		
+		int xNow = pt1.x;
+		int yNow = pt1.y;
 
-	//	int stepX = 0;
-	//	int stepY = 0;
+		int stepX = 0;
+		int stepY = 0;
 
-	//	// 判断两个方向步进的正负
-	//	if (pt1.x < pt2.x)
-	//	{
-	//		stepX = 1;
-	//	}
-	//	else 
-	//	{
-	//		stepX = -1;
-	//	}
+		// 判断两个方向步进的正负
+		if (pt1.x < pt2.x)
+		{
+			stepX = 1;
+		}
+		else 
+		{
+			stepX = -1;
+		}
 
-	//	if (pt1.y < pt2.y)
-	//	{
-	//		stepY = 1;
-	//	}
-	//	else
-	//	{
-	//		stepY = -1;
-	//	}
+		if (pt1.y < pt2.y)
+		{
+			stepY = 1;
+		}
+		else
+		{
+			stepY = -1;
+		}
 
-	//	// 对比xy偏移量，决定步进的方向选取 x 或 y
-	//	int sumStep = disX;
-	//	bool useXStep = true;
-	//	if (disX < disY)
-	//	{
-	//		sumStep = disY;
-	//		useXStep = false;
-	//		SWAP_INT(disX, disY);
-	//	}
+		// 对比xy偏移量，决定步进的方向选取 x 或 y
+		int sumStep = disX;
+		bool useXStep = true;
+		if (disX < disY)
+		{
+			sumStep = disY;
+			useXStep = false;
+			SWAP_INT(disX, disY);
+		}
 
-	//	// 初始化p的值，P0=2▲y-▲x
-	//	int p = 2 * disY - disX;
-	//	for (auto i = 0; i < sumStep; i++)
-	//	{
-	//		drawPoint(xNow, yNow, _color);
-	//		if (p >= 0)
-	//		{
-	//			// 步进因变量的坐标
-	//			if (useXStep)
-	//			{
-	//				yNow = yNow + stepY;
-	//			}
-	//			else
-	//			{
-	//				xNow = xNow + stepX;
-	//			}
-	//			
-	//			p = p - 2 * disX;
-	//		}
-	//		// 步进主坐标（自变量的坐标）
-	//		if (useXStep)
-	//		{
-	//			xNow = xNow + stepX;
-	//		}
-	//		else
-	//		{
-	//			yNow = yNow + stepY;
-	//		}
-	//		p = p + 2 * disY;
-	//	}
+		// 初始化p的值，P0=2▲y-▲x
+		int p = 2 * disY - disX;
+		for (auto i = 0; i < sumStep; i++)
+		{
+			drawPoint(Point(xNow, yNow,0 ,_color));
+			if (p >= 0)
+			{
+				// 步进因变量的坐标
+				if (useXStep)
+				{
+					yNow = yNow + stepY;
+				}
+				else
+				{
+					xNow = xNow + stepX;
+				}
+				
+				p = p - 2 * disX;
+			}
+			// 步进主坐标（自变量的坐标）
+			if (useXStep)
+			{
+				xNow = xNow + stepX;
+			}
+			else
+			{
+				yNow = yNow + stepY;
+			}
+			p = p + 2 * disY;
+		}
 
-	//}
+	}
 	
 
 	// 使用bresenham算法画线
@@ -613,7 +613,7 @@ namespace GT
 
 				if (!m_state.m_useBlend)
 				{
-					//! drawPoint(u + _x, v + _y, _srcColor);
+					drawPoint(Point(u + _x, v + _y,0, _srcColor));
 				}
 				else
 				{
@@ -621,7 +621,7 @@ namespace GT
 					RGBA _dstColor = getColor(_x+u, _y+v);
 					float _srcAlpha = (float)_srcColor.m_a / 255.0;		// 当前图片的透明度α
 					RGBA _finalColor = colorLerp(_dstColor, _srcColor, _image->getAlpha()*_srcAlpha);
-					//! drawPoint(_x+u,_y+v,_finalColor);
+					drawPoint(Point(_x + u, _y + v,0, _finalColor));
 				}
 			}
 		}
@@ -748,6 +748,9 @@ namespace GT
 				pt2.m_uv = _uvData[0];
 				_texCoordData += m_state.m_texCoordData.m_stride;	// 加步长
 
+				gtVertexTransform(pt0);
+				gtVertexTransform(pt1);
+				gtVertexTransform(pt2);
 
 				drawTriangleAny(pt0, pt1, pt2);
 			}

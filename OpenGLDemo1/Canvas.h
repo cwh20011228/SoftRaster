@@ -5,6 +5,10 @@
 #include "Image.h"
 
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 namespace GT
 {
@@ -44,6 +48,14 @@ namespace GT
 		GT_TRIANGLE=1
 	};
 
+	enum MATRIX_MODE
+	{
+		GT_MODEL=0,				// 平移和旋转矩阵
+		GT_PROJECTION=1,		// 投影矩阵，将相机空间中的坐标变换到裁剪空间
+		GT_VIEW=2,				// 视图矩阵
+	};
+
+
 	struct DataElement
 	{
 		int				m_size;			// 每个点有多少数据
@@ -63,15 +75,21 @@ namespace GT
 	struct Statement
 	{
 		// 状态变量
-		bool					m_useBlend;				// 是否使用混合
-		bool					m_enableTexture;		// 是否采用纹理贴图
-		const Image*			m_texture;				// 图片
-		Image::TEXTURE_TYPE		m_texType;				// 采样方式
-		byte					m_alphaLimit;			// 大于此值的像素才可以绘制
+		bool						m_useBlend;				// 是否使用混合
+		bool						m_enableTexture;		// 是否采用纹理贴图
+		const Image*				m_texture;				// 图片
+		Image::TEXTURE_TYPE			m_texType;				// 采样方式
+		byte						m_alphaLimit;			// 大于此值的像素才可以绘制
 
-		DataElement				m_vertexData;			// 顶点坐标
-		DataElement				m_colorData;			// 颜色值
-		DataElement				m_texCoordData;			// 纹理坐标
+		DataElement					m_vertexData;			// 顶点坐标
+		DataElement					m_colorData;			// 颜色值
+		DataElement					m_texCoordData;			// 纹理坐标
+
+		MATRIX_MODE					m_matrixMode;			// 矩阵模式
+		glm::mat4					m_modelMatrix;			// 变换矩阵（平移和旋转）
+		glm::mat4					m_viewMatrix;			// 观察者矩阵
+		glm::mat4					m_projMatrix;			// 投影矩阵，将观察者坐标系中的坐标变换到裁剪空间中，实现正交或透视投影
+		std::vector<glm::mat4>		m_matrixVec;
 
 		Statement()
 		{
@@ -80,6 +98,12 @@ namespace GT
 			m_texture = nullptr;
 			m_texType = Image::TX_REPEAT;
 			m_alphaLimit = 0;
+
+			m_matrixMode = GT_MODEL;
+			m_modelMatrix = glm::mat4(1.0f);		// 初始化为单位矩阵
+			m_viewMatrix = glm::mat4(1.0f);
+			m_projMatrix = glm::mat4(1.0f);
+			m_matrixVec.clear();
 		}
 	};
 
@@ -121,7 +145,7 @@ namespace GT
 			if (m_buffer != nullptr)
 			{
 				memset(m_buffer, 0, sizeof(RGBA) * m_width * m_height);
-				// 将深度缓冲区中的每个值初始化255
+				// 将深度缓冲区中的每个值初始化255(因为RGB像素值的范围是[0,255])
 				memset(m_zBuffer, 255, sizeof(float) * m_width * m_height);
 			}
 		}
@@ -182,7 +206,7 @@ namespace GT
 		}
 
 		// 画线操作
-		//void drawLine(intV2 pt1, intV2 pt2, RGBA _color);
+		void drawLine(intV2 pt1, intV2 pt2, RGBA _color);
 		void drawLine(Point pt1, Point pt2);
 
 		// 画三角形
@@ -237,6 +261,105 @@ namespace GT
 		// _first是起始点位置23  _count是总共的点的数量
 		void gtDrawArray(DRAW_MODE _mode,int _first,int _count);
 
+
+		//TODO: 矩阵状态机
+
+		// 矩阵入栈
+		void gtPushMatrix()
+		{
+			m_state.m_matrixVec.push_back(m_state.m_modelMatrix);
+		}
+
+		// 矩阵出栈
+		void gtPopMatrix()
+		{
+			if (m_state.m_matrixVec.empty())
+			{
+				return;
+			}
+			m_state.m_modelMatrix = m_state.m_matrixVec.front();	//? 注意 
+			m_state.m_matrixVec.pop_back();
+		}
+
+		// 设置矩阵模式
+		void gtMatrixMode(MATRIX_MODE _mode)
+		{
+			m_state.m_matrixMode = _mode;
+		}
+
+
+
+		// 将当前矩阵替换为指定的矩阵
+		void gtLoadMatrix(glm::mat4 _matrix)
+		{
+			switch (m_state.m_matrixMode)
+			{
+			case GT_MODEL:
+				m_state.m_modelMatrix = _matrix;
+				break;
+			case GT_PROJECTION:
+				m_state.m_projMatrix = _matrix;
+				break;
+			case GT_VIEW:
+				m_state.m_viewMatrix = _matrix;
+				break;
+			default:
+				break;
+			}
+		}
+
+		// 将矩阵设置为单位矩阵
+		void gtLoadIdentity()
+		{
+			switch (m_state.m_matrixMode)
+			{
+			case GT_MODEL:
+				m_state.m_modelMatrix = glm::mat4(1.0f);
+				break;
+			case GT_PROJECTION:
+				m_state.m_projMatrix = glm::mat4(1.0f);
+				break;
+			case GT_VIEW:
+				m_state.m_viewMatrix = glm::mat4(1.0f);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// 左乘当前矩阵(A矩阵*单位矩阵=A矩阵)
+		void gtMultiMatrix(glm::mat4 _matrix)
+		{
+			switch (m_state.m_matrixMode)
+			{
+			case GT_MODEL:
+				m_state.m_modelMatrix = _matrix * m_state.m_modelMatrix;
+				break;
+			case GT_PROJECTION:
+				m_state.m_projMatrix = _matrix * m_state.m_projMatrix;
+				break;
+			case GT_VIEW:
+				m_state.m_viewMatrix = _matrix * m_state.m_viewMatrix;
+				break;
+			default:
+				break;
+			}
+		}
+
+		// 矩阵变换（平移，旋转，正交投影，透视投影）
+		void gtVertexTransform(Point& _pt)
+		{
+			// ptv4是三维空间中的点
+			glm::vec4 ptv4(_pt.m_x, _pt.m_y, _pt.m_z, 1);	// 齐次坐标表示3D空间中的点，1是w的值
+
+			ptv4 = m_state.m_viewMatrix*m_state.m_modelMatrix * ptv4;
+			ptv4 = m_state.m_projMatrix * ptv4;
+
+			// 除以w是转化为转化到ndc坐标系，		+1） * (w/2)是转换到光栅坐标系
+			_pt.m_x = (ptv4.x / ptv4.w + 1.0) * (float)m_width / 2.0;
+			_pt.m_y = (ptv4.y / ptv4.w + 1.0) * (float)m_height / 2.0;
+			_pt.m_z = ptv4.z/ptv4.w;
+		}
 	};
 }
 

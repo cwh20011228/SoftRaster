@@ -6,10 +6,6 @@
 #include <cmath>
 #include "Image.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 
 #define MAX_LOADSTRING 100
 
@@ -37,6 +33,7 @@ float speed = 0.01;     // 速度
 float _angle = 0.0f;    // 角度
 float _xCam = 0.0f;     // 摄像机的位置
 float _zRun = 0;        // z轴的变化
+float _sumX = 0;        // x轴的变化   
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);   // 注册窗口类的函数
@@ -133,47 +130,32 @@ void Render()
     // 屏幕的范围800*600(Width*Height)
     _canvas->clear();
     
-    GT::Point ptArray[] =
+    GT::Point ptArray1[] =
     {
-        //TODO: 近大远小
-        // 近的三角形
         {0.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
         {300.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(1.0,0)},
         {300.0,300.0,0.0,GT::RGBA(0,0,255),GT::floatV2(1.0,1.0)},
-
-        // 远的三角形
-        {300.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
-        {300.0,300.0,0.0,GT::RGBA(0,255,0),GT::floatV2(0.0,0.0)},
-        {300.0,0.0,-500.0,GT::RGBA(0,0,255),GT::floatV2(0.0,0.0)},
     };
 
-
-    for (int i = 0; i < 6; i++)
+    GT::Point ptArray2[] =
     {
-       /* if (i == 0 || i == 1 || i == 2)
-        {
-            ptArray[i].m_z -= _zRun;
-        }*/
-        glm::vec4 ptv4(ptArray[i].m_x, ptArray[i].m_y, ptArray[i].m_z, 1);
+        {300.0,0.0,0.0,GT::RGBA(255,0,0),GT::floatV2(0,0)},
+        {600.0,0.0,0.0,GT::RGBA(0,255,0),GT::floatV2(0.0,0.0)},
+        {600.0,300.0,-500.0,GT::RGBA(0,0,255),GT::floatV2(0.0,0.0)},
+    };
 
-        //TODO: mMat是平移矩阵
-        glm::mat4 mMat(1.0f);
-        mMat = glm::translate(mMat, glm::vec3(-300, 0, 0));
-
-
-        //TODO: rMAt是旋转矩阵
-        glm::mat4 rMat(1.0f);
-        rMat = glm::rotate(rMat, glm::radians(_angle), glm::vec3(0, 1, 0));
-
-
-        //TODO: vMat是观察矩阵
+        //TODO: vMat是观察矩阵，相机的位置
         glm::mat4 vMat(1.0f);
         // glm::vec3(0, 0, 100)是eye在世界坐标系下的坐标   
         // glm::vec3(0, 0, 0)是看向的那个点   
         // glm::vec3(0, 1, 0) 是头的方向
         vMat = glm::lookAt(glm::vec3(0, 0, 1000), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-        
 
+        _canvas->gtMatrixMode(GT::GT_VIEW);
+        _canvas->gtLoadIdentity();
+        _canvas->gtLoadMatrix(vMat);
+
+        
         //TODO: pMat是投影矩阵
         glm::mat4 pMat(1.0f);
         // glm::radians(60.0f) 视张角
@@ -181,31 +163,68 @@ void Render()
         // 1.0f 近平面离观察者原点距离  1000.0f  远平面离观察者坐标系原点距离
         pMat = glm::perspective(glm::radians(60.0f), (float)wWidth/(float)wHeight,1.0f,1000.0f);
         
-        ptv4 = pMat* vMat *rMat*mMat* ptv4;
+        _canvas->gtMatrixMode(GT::GT_PROJECTION);
+        _canvas->gtLoadIdentity();
+        _canvas->gtMultiMatrix(pMat);
 
-        // ndc下的坐标 归一化到屏幕(-1,1)之后的标准坐标
-        ptArray[i].m_x = (ptv4.x/ptv4.w+1.0)*((float)wWidth/2.0);
-        ptArray[i].m_y = (ptv4.y / ptv4.w +1.0)* ((float)wHeight / 2.0);
-        ptArray[i].m_z = ptv4.z / ptv4.w;
+        
+		// 开启纹理贴图
+		_canvas->enableTexture(true);
 
-    }
-    
-    _angle += 2;
-    _xCam += 5;
-    _zRun += 2;
-
-    _canvas->gtVertexPointer(3, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray);
-    _canvas->gtColorPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_color);
-    _canvas->gtTexCoordPointer(2, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray[0].m_uv);
-    _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 6);
+        // 绑定背景图片_bkImage
+        _canvas->bindTexture(_bkImage);
 
 
+        // 整体变换
+        glm::mat4 sumMat(1.0f);
+        sumMat = glm::translate(sumMat, glm::vec3(_sumX, 0, 0));
+        _sumX += 0.5;
 
-    // 开启纹理贴图
-    _canvas->enableTexture(true);
-    // 绑定背景图片_bkImage
+        // 平移变换
+        _canvas->gtMatrixMode(GT::GT_MODEL);
+        _canvas->gtLoadIdentity();
+        _canvas->gtMultiMatrix(sumMat);
 
-    _canvas->bindTexture(_bkImage);
+
+        // 保存现有矩阵
+        _canvas->gtPushMatrix();
+
+        //TODO: 对三角形1进行操作  先向左平移300个单位
+        //_canvas->gtLoadIdentity();
+        glm::mat4 tMat(1.0f);       // 平移矩阵
+        tMat = glm::translate(tMat, glm::vec3(-300, 0, 0));
+
+
+        glm::mat4 rMat(1.0f);       // 旋转矩阵
+        rMat = glm::rotate(rMat,glm::radians(_angle),glm::vec3(0,1,0));
+        _angle += 2;
+        _canvas->gtMultiMatrix(tMat);
+        _canvas->gtMultiMatrix(rMat);
+
+
+    // 进行绘制
+    _canvas->gtVertexPointer(3, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray1);
+    _canvas->gtColorPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray1[0].m_color);
+    _canvas->gtTexCoordPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray1[0].m_uv);
+   
+    _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 3);
+
+
+    //TODO: 对三角形2进行绘制 
+
+    // 恢复之前的矩阵，出栈
+    _canvas->gtPopMatrix();
+
+    // 进行绘制
+    _canvas->gtVertexPointer(3, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)ptArray2);
+    _canvas->gtColorPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray2[0].m_color);
+    _canvas->gtTexCoordPointer(1, GT::GT_FLOAT, sizeof(GT::Point), (GT::byte*)&ptArray2[0].m_uv);
+
+    _canvas->gtDrawArray(GT::GT_TRIANGLE, 0, 3);
+
+
+
+   
 
     // 在这里画到设备上，hMem相当于缓冲区
     BitBlt(hDC, 0, 0, wWidth, wHeight, hMem, 0, 0, SRCCOPY);
